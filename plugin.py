@@ -39,6 +39,7 @@ Requirements:
 
 import Domoticz                          #tested on Python 3.9.2 in Domoticz 2023.2
 import pymodbus.client as ModbusClient   #tested with 3.6.2
+import time
 from pymodbus import ExceptionResponse,Framer,ModbusException,pymodbus_apply_logging_config
 from pymodbus.payload import BinaryPayloadDecoder,BinaryPayloadBuilder
 from pymodbus.constants import Endian
@@ -292,6 +293,9 @@ class BasePlugin:
                     return
 
                 client.connect()
+
+                # To avoid this error message: AttributeError: 'ModbusIOException' object has no attribute 'registers'
+                time.sleep(1)
 
                 # Write settings first
                 for setting in self.settingsToWrite:
